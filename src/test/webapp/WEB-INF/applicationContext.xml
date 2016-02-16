@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation= "http://www.springframework.org/schema/beans 
+                            http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+                            http://www.springframework.org/schema/aop 
+                            http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+                            http://www.springframework.org/schema/tx 
+                            http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+                            http://www.springframework.org/schema/context
+                            http://www.springframework.org/schema/context/spring-context-4.0.xsd    
+                            ">
+    <!-- 扫描注解所在的包 -->
+    <context:component-scan base-package="com.jhhc.baseframework.test"/>
+    
+    <!-- 配置数据源 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+          p:location="/WEB-INF/jdbc_test.properties" />
+    
+    <bean id="dataSource"
+          class="org.apache.commons.dbcp2.BasicDataSource"
+          p:driverClassName="${driver}"
+          p:url="${url}"
+          p:username="${name}"
+          p:password="${passwd}" /> 
+    
+    <bean id="jdbcTemplate"
+          class="org.springframework.jdbc.core.JdbcTemplate" abstract="false"
+          lazy-init="false" autowire="default">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource"/>
+    <tx:annotation-driven /> 
+    
+    <!-- 配置aop -->
+    <aop:aspectj-autoproxy/>
+    
+    <!-- 具体aop配置 -->
+    <aop:config proxy-target-class="true">
+        <aop:aspect ref="notify_advice">
+            <!-- 此处需要手动填入 -->
+            <aop:pointcut id="notify_pointcut" expression="within(com.jhhc.webplatform.context.core..*) 
+                and execution(@com.jhhc.webplatform.context.core.Notify * *(..))"/>
+            <aop:after method="notifyChange" pointcut-ref="notify_pointcut"/>
+        </aop:aspect>
+        
+        <aop:aspect ref="sret_wrap_advice" order="1">
+            <!-- 此处需要手动填入 -->
+            <aop:pointcut id="sret_wrap_pointcut" expression="within(com.jhhc.webplatform.context.service..* || com.jhhc.webplatform.context.controller.restful..*) 
+                and within(@org.springframework.stereotype.Service *) 
+                and execution(public com.jhhc.webplatform.context.service.Sret *(..))"/>
+            <aop:around method="wrapSret" pointcut-ref="sret_wrap_pointcut"/>
+        </aop:aspect>
+        
+        <aop:aspect ref="log_print_restful_advice" order="1">  
+            <aop:pointcut id="log_print_restful_pointcut" expression="within(com.jhhc.webplatform.context.controller..*) 
+                and within(@org.springframework.web.bind.annotation.RestController *) and
+                execution(@org.springframework.web.bind.annotation.RequestMapping 
+                            public * *(..))"/>
+            <aop:around method="print" pointcut-ref="log_print_restful_pointcut"/>
+        </aop:aspect>
+        
+        <aop:aspect ref="log_print_jsp_string_advice" order="1">
+            <aop:pointcut id="log_print_jsp_string_pointcut" expression="within(com.jhhc.webplatform.context.controller..*) 
+                and within(@org.springframework.stereotype.Controller *)
+                and execution(@org.springframework.web.bind.annotation.RequestMapping public String *(..))"/>
+            <aop:around method="print" pointcut-ref="log_print_jsp_string_pointcut"/>
+        </aop:aspect>
+        
+        <aop:aspect ref="log_print_jsp_mv_advice" order="1">
+            <aop:pointcut id="log_print_jsp_mv_pointcut" expression="within(com.jhhc.webplatform.context.controller..*) 
+                and within(@org.springframework.stereotype.Controller *)
+                and execution(@org.springframework.web.bind.annotation.RequestMapping 
+                            public org.springframework.web.servlet.ModelAndView *(..))"/>
+            <aop:around method="print" pointcut-ref="log_print_jsp_mv_pointcut"/>
+        </aop:aspect>
+        
+        <aop:aspect ref="make_logged_advice" order="2">
+            <aop:pointcut id="make_logged_pointcut" expression="within(com.jhhc.webplatform.context.controller..*) 
+                and execution(@com.jhhc.webplatform.context.controller.MakeLogged public * *(..))"/>
+            <aop:before method="addSession" pointcut-ref="make_logged_pointcut"/>
+        </aop:aspect>
+        
+        <aop:aspect ref="logged_advice" order="3">
+            <!-- 此处需要手动填入 -->
+            <aop:pointcut id="logged_pointcut" expression="within(com.jhhc.webplatform.context.controller..*) 
+                and execution(@com.jhhc.webplatform.context.controller.Logged public * *(..))"/>
+            <aop:before method="checkLogin" pointcut-ref="logged_pointcut"/>
+        </aop:aspect>
+    </aop:config>
+    
+</beans>

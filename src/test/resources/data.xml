@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+    <!-- record 部分 -->
+    <record id="1" name="abcd" age="11"/>
+    <record id="2" name="qwer" age="30"/>
+    <record id="3" name="qindeyu" age="21"/>
+    <record id="4" name="sunwenqin" age="20"/>
+    
+    <student id="11" name="qindeyu" depart="ise"/>
+    <student id="12" name="sunwenqin" depart="ise"/>
+    
+    <info id="2" info="测试信息" record_id="4"/>
+    
+    <!-- plain core 部分 -->
+    <core1 id="1" username="yecq" passwd="1234" name="叶小怜" email="yecq@123.com"/>
+    <core1 id="3" username="abcd" passwd="123456" name="ABC" email="abc@123.com"/>
+    <core1 id="2" username="aaa" passwd="123456" name="ABC" email="pkj@123.com"/>
+    
+    <info1 id="8" department="信工系" room="14栋" core1_id="3"/>
+    <info1 id="9" department="电子" room="27栋" core1_id="1"/>
+    
+    
+    <!-- user 部分 -->
+    <user id="1" username="yecq" passwd="1234" status="有效" name="叶小怜" email="yecq@123.com"/>
+    <user id="2" username="abcd" passwd="123456" status="无效" name="ABC" email="abc@123.com"/>
+    
+    <user12 id="1" username="abcde" passwd="12345"/>
+    <user12 id="2" username="zxcv" passwd="909090"/>
+    
+    <info12 id="3" identity_number="320219" user12_id="1"/>
+    <info12 id="4" identity_number="320414" user12_id="2"/>
+    
+    
+    <!-- plain service 部分 -->
+    <core1s id="1" username="yecq" passwd="1234" name="叶小怜" email="yecq@123.com"/>
+    <core1s id="3" username="abcd" passwd="123456" name="ABC" email="abc@123.com"/>
+    <core1s id="2" username="aaa" passwd="123456" name="ABC" email="pkj@123.com"/>
+    
+    <info1s id="8" department="信工系" room="14栋" core1s_id="3"/>
+    <info1s id="9" department="电子" room="27栋" core1s_id="1"/>
+    
+    
+    <!-- web 部分 -->
+    <core1w id="1" username="yecq" passwd="1234" name="叶小怜" email="yecq@123.com"/>
+    <core1w id="2" username="abcd" passwd="123456" name="ABC" email="abc@123.com"/>
+</dataset>
