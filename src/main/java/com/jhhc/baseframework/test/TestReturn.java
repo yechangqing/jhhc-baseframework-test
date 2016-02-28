@@ -39,7 +39,7 @@ public class TestReturn {
         return new Gson().fromJson(this.body, cls);
     }
 
-    public <T> List<T> getObjectForList(Class<T> cls) {
+    public <T> List<T> getObject4List(Class<T> cls) {
         try {
             List li = new Gson().fromJson(this.body, List.class);
             List<T> ret = new LinkedList();
@@ -57,5 +57,13 @@ public class TestReturn {
 
     public String getHeader(String key) {
         return this.hv.get(key);
+    }
+
+    public String getStatus() {
+        return getHeader("status");
+    }
+
+    public String getMessage() {
+        return getHeader("message");
     }
 }
