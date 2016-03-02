@@ -1,6 +1,8 @@
 package com.jhhc.baseframework.test;
 
 import com.google.gson.Gson;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,7 +57,7 @@ public class TestReturn {
         }
     }
 
-    public String getHeader(String key) {
+    private String getHeader(String key) {
         return this.hv.get(key);
     }
 
@@ -64,6 +66,13 @@ public class TestReturn {
     }
 
     public String getMessage() {
-        return getHeader("message");
+        String ori = getHeader("message");
+        try {
+            // 解码
+            ori = URLDecoder.decode(ori, "utf-8");
+        } catch (UnsupportedEncodingException ex) {
+
+        }
+        return ori;
     }
 }
