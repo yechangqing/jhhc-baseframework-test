@@ -4,17 +4,20 @@
     
     <groupId>com.jhhc.baseframework</groupId>
     <artifactId>baseframework-test</artifactId>
-    <version>1.0</version>
+    <version>1.0.spring-4.1.9</version>
     <packaging>jar</packaging>
-    
     <name>${artifactId}-${version}</name>
+    
+    <description>
+        由于spring data目前只和spring 4.1.9配合，故做这个版本
+    </description>
     
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
-        <spring.framework.version>4.2.5.RELEASE</spring.framework.version>
+        <spring.framework.version>4.1.9.RELEASE</spring.framework.version>
     </properties>
     
     <dependencies>
