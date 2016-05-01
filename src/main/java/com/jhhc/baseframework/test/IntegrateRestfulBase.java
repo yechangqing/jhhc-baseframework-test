@@ -43,6 +43,9 @@ public class IntegrateRestfulBase {
     @Autowired
     protected DbUnitPrepare prepare;
 
+    @Autowired
+    protected SqlOperator sql;
+
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
 

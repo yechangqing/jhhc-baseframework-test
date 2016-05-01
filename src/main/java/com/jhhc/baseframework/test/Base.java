@@ -26,6 +26,9 @@ public class Base {
     // 测试异常用的，必须为public
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
+    
+    @Autowired
+    protected SqlOperator sql;
 
     @Before
     public void before() throws DatabaseUnitException, SQLException {
@@ -38,6 +41,7 @@ public class Base {
     public void after() throws DatabaseUnitException, SQLException {
 
         DatabaseOperation.DELETE_ALL.execute(prepare.getIDatabaseConnection(), prepare.getIDataSet());
-
+        
     }
+    
 }
